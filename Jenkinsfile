@@ -1,7 +1,5 @@
 pipeline {
     agent any
-
-    // 👇 Add this to allow a toggle for running the Test stage
     parameters {
         booleanParam(defaultValue: true, description: 'Run the Test stage?', name: 'RUN_TESTS')
     }
