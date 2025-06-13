@@ -1,44 +1,57 @@
-pipeline {
+pipeline
+{
     agent any
-    parameters {
-        booleanParam(defaultValue: true, description: 'Run the Test stage?', name: 'RUN_TESTS')
+
+    parameters
+    {
+        booleanParam(name: 'RUN_TEST', defaultValue: true, description: 'Run the Test Stage?')
     }
 
     stages {
-        stage('Build') {
-            steps {
+        stage('Build')
+        {
+            steps
+            {
                 echo 'Building...'
-                // e.g., sh 'javac helooWrld.java'
             }
         }
 
-        stage('Test') {
-            // 👇 Conditional execution based on RUN_TESTS
-            when {
-                expression { return params.RUN_TESTS == true }
+        stage('Test')
+        {
+            when
+            {
+                expression
+                {
+                    return params.RUN_TEST == true }
             }
-            steps {
+            steps
+            {
                 echo 'Testing...'
-                // e.g., sh 'java helooWrld'
+
             }
         }
 
-        stage('Deploy') {
-            steps {
+        stage('Deploy')
+        {
+            steps
+            {
                 echo 'Deploying...'
-                // Placeholder deploy logic
             }
         }
     }
 
-    post {
-        success {
+    post
+    {
+        success
+        {
             echo 'Build succeeded!🕺🏻'
         }
-        failure {
+        failure
+        {
             echo 'Build failed. Please check logs.🥀💔'
         }
-        always {
+        always
+        {
             echo 'Post build action running, no matter what.🦖☄️'
         }
     }
