@@ -9,6 +9,9 @@ pipeline {
     tools {
         maven 'Maven'
     }
+    parameters {
+        booleanParam(name: 'EXECUTE_TESTS', defaultValue: true, description: 'Run the Test Stage?')
+    }
 
     stages {
         stage('Build') {
@@ -21,8 +24,13 @@ pipeline {
         }
 
         stage('Test') {
+            when {
+                expression {
+                    return params.EXECUTE_TESTS == true
+                }
+            }
             steps {
-                echo 'Testing...'
+                echo 'Testing... (because EXECUTE_TESTS is true ✅)'
             }
         }
 
