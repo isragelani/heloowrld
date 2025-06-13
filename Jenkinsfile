@@ -1,22 +1,25 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'VERSION', defaultValue: '1.1.0', description: 'Version to deploy on prod')
+        choice(name: 'CHOICE_VERSION', choices: ['1.1.0', '1.2.0', '1.3.0'], description: 'Select a version')
+        booleanParam(name: 'EXECUTE_TESTS', defaultValue: true, description: 'Run the Test Stage?')
+    }
+
     environment {
-        VERSION = '3.9.5'
         AUTHOR = 'Isra 🐢'
     }
 
     tools {
         maven 'Maven'
     }
-    parameters {
-        booleanParam(name: 'EXECUTE_TESTS', defaultValue: true, description: 'Run the Test Stage?')
-    }
 
     stages {
         stage('Build') {
             steps {
-                echo "Building using Maven version: ${VERSION}"
+                echo "Building with selected VERSION: ${params.VERSION}"
+                echo "Choice version selected: ${params.CHOICE_VERSION}"
                 echo "Created by: ${AUTHOR}"
 
                 bat 'mvn --version'
@@ -30,26 +33,26 @@ pipeline {
                 }
             }
             steps {
-                echo 'Testing... (because EXECUTE_TESTS is true ✅)'
+                echo 'Running tests because EXECUTE_TESTS is true ✅'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
+                echo "Deploying version: ${params.VERSION} (Choice: ${params.CHOICE_VERSION})"
             }
         }
     }
 
     post {
         success {
-            echo 'Build succeeded!🕺🏻'
+            echo '✅ Build succeeded!🕺🏻'
         }
         failure {
-            echo 'Build failed.💔🥀'
+            echo '❌ Build failed.💔🥀'
         }
         always {
-            echo 'Post build action ran.☄️🦖'
+            echo '☄️ Post build action ran no matter what.🦖'
         }
     }
 }
