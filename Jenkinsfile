@@ -6,11 +6,17 @@ pipeline {
         AUTHOR = 'Isra 🐢'
     }
 
+    tools {
+        maven 'Maven'
+    }
+
     stages {
         stage('Build') {
             steps {
-                echo "Building using VERSION: ${VERSION}"
+                echo "Building using Maven version: ${VERSION}"
                 echo "Created by: ${AUTHOR}"
+
+                bat 'mvn --version'
             }
         }
 
