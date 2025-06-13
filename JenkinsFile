@@ -1,24 +1,30 @@
 pipeline {
-agent any
-stages {
-stage(&#39;Build&#39;) {
-steps {
-echo &#39;Building..&#39;
-// Here you can define commands for your build
+    agent any
 
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+                // Here you can define commands for your build, like:
+                // sh 'npm install' or sh 'make'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+                // Put test commands here, e.g.
+                // sh 'pytest tests/' or sh 'npm test'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
+                // Deployment steps go here
+                // sh 'scp app user@server:/path/'
+            }
+        }
+    }
 }
-}
-stage(&#39;Test&#39;) {
-steps {
-echo &#39;Testing..&#39;
-// Here you can define commands for your tests
-}
-}
-stage(&#39;Deploy&#39;) {
-steps {
-echo &#39;Deploying....&#39;
-// Here you can define commands for your deployment
-}
-}
-}
-}
+
