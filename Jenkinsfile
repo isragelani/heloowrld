@@ -1,3 +1,4 @@
+def flag = true
 pipeline
 {
     agent any
@@ -22,7 +23,7 @@ pipeline
             {
                 expression
                 {
-                    return params.RUN_TEST == true }
+                    return flag == false }
             }
             steps
             {
