@@ -4,27 +4,35 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building..'
-                // Here you can define commands for your build, like:
-                // sh 'npm install' or sh 'make'
+                echo 'Building...'
+                // e.g., sh 'javac helooWrld.java'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Testing..'
-                // Put test commands here, e.g.
-                // sh 'pytest tests/' or sh 'npm test'
+                echo 'Testing...'
+                // e.g., sh 'java helooWrld'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying....'
-                // Deployment steps go here
-                // sh 'scp app user@server:/path/'
+                echo 'Deploying...'
+                // Placeholder deploy logic
             }
         }
     }
-}
 
+    post {
+        success {
+            echo 'Build succeeded!🕺🏻'
+        }
+        failure {
+            echo 'Build failed. Please check logs.🥀💔'
+        }
+        always {
+            echo 'Post build action running, no matter what.🦖☄️'
+        }
+    }
+}
