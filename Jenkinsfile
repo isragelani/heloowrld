@@ -1,50 +1,46 @@
-def flag = true
-pipeline
-{
+pipeline {
     agent any
 
-    parameters
-    {
+    environment {
+        VERSION = '3.9.5'
+    }
+
+    parameters {
         booleanParam(name: 'RUN_TEST', defaultValue: true, description: 'Run the Test Stage?')
+        choice(name: 'CHOICE_VERSION', choices: ['3.8.7', '3.9.5', '4.0.0'], description: 'Choose your version')
+    }
+
+    tools {
+        maven 'Maven'
     }
 
     stages {
-        stage('Build')
-        {
-            steps
-            {
-                echo 'Building...'
+        stage('Build') {
+            steps {
+                echo "Building using Maven version: ${VERSION} (User selected: ${params.CHOICE_VERSION})"
             }
         }
 
-        stage('Test')
-        {
-            when
-            {
-                expression
-                {
-                    return flag == false }
+        stage('Test') {
+            when {
+                expression {
+                    return params.RUN_TEST == true
+                }
             }
-            steps
-            {
-                echo 'Testing...'
-
+            steps {
+                echo 'Running Tests...'
             }
         }
 
-        stage('Deploy')
-        {
-            steps
-            {
-                echo 'Deploying...'
+        stage('Deploy') {
+            steps {
+                echo 'Deploying App...'
             }
         }
     }
 
-    post
-    {
-        success
-        {
+    post {
+        success {
             echo 'Build succeeded!🕺🏻'
         }
         failure
