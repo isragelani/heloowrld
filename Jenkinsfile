@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    // 👇 Add this to allow a toggle for running the Test stage
+    parameters {
+        booleanParam(defaultValue: true, description: 'Run the Test stage?', name: 'RUN_TESTS')
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -10,6 +15,10 @@ pipeline {
         }
 
         stage('Test') {
+            // 👇 Conditional execution based on RUN_TESTS
+            when {
+                expression { return params.RUN_TESTS == true }
+            }
             steps {
                 echo 'Testing...'
                 // e.g., sh 'java helooWrld'
